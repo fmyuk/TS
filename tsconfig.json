@@ -5,7 +5,11 @@
     "strict": true,
     "esModuleInterop": true,
     "outDir": "dist",
-    "declaration": true
+    "declaration": true,
+    "allowJs": true,
+    "checkJs": true,
+    "typeRoots": ["./typings"],
+    "types": ["node", "loadash", "express"]
   },
   "include": [
     "src/**/*"
