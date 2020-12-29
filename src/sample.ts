@@ -130,3 +130,12 @@ console.log(list)
 
 let message = list.reduce((prev, current) => `${prev} ${current}`)
 console.log(message)
+
+const obj = {
+  foo: false,
+  bar: 1,
+  baz: "2"
+}
+
+obj["foo"] = true
+obj["foo"] = 0
