@@ -35,3 +35,9 @@ function getFormattedValueNull(value: number, unit: string | null = null) {
   if (unit === null) return `${_value}`
   return `${_value} ${unit.toUpperCase}`
 }
+
+type User = {
+  age?: number
+  name?: string
+}
+function registerUser(user: User){}
