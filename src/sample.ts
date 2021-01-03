@@ -139,3 +139,107 @@ const obj = {
 
 obj["foo"] = true
 obj["foo"] = 0
+
+function getPriceLabel(amount: number, tax: number) {
+  return `¥$(amount * tax)`
+}
+
+function log(message: string) {
+  console.log(message)
+}
+
+function getStringValue(value: number, prefix: string): string {
+  if (prefix === undefined) return value
+  return `${prefix} ${value}`
+}
+
+function getScore(score: number) {
+  if (score < 0 || score > 100) return null
+  return score
+}
+
+function getScoreAmount(score: "A" | "B" | "C") {
+  switch (score) {
+    case "A":
+      return 100
+    case "B":
+      return 60
+    case "C":
+      return 30
+  }
+}
+
+function wait(duration: number): Promise<string> {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(`${duration}ms passed`). duration)
+  })
+}
+wait(1000).then(res => { })
+
+async function queue() {
+  const message = await wait(1000)
+  return message
+}
+
+function waitThenString(duration: number) {
+  return new Promise<string>(resolve => {
+    setTimeout(() => resolve(`${duration}ms passed`), duration)
+  })
+}
+
+function waitThenNumber(duration: number) {
+  return new Promise<number>(resolve => {
+    setTimeout(() => resolve(duration), duration)
+  })
+}
+
+function waitAll() {
+  return Promise.all([
+    waitThenString(10),
+    waitThenNumber(100),
+    waitThenString(1000)
+  ])
+}
+
+function waitRace() {
+  return Promise.race([
+    waitThenString(10),
+    waitThenNumber(100),
+    waitThenString(1000)
+  ])
+}
+
+async function main() {
+  const [a, b, c] = await waitAll()
+  const result = await waitRace()
+}
+
+import("./test").then(module => {
+  const amount = module.value
+})
+async function main() {
+  const { value } = await(import("./test"))
+  const amount = value
+}
+
+interface User {
+  id: number
+  created_at: string
+  profile: {
+    name: {
+      first: string
+      last: string
+    },
+    age: number
+    gender: string
+    enabled: boolean
+  }
+}
+type Users = User[]
+
+function getFormattedValue(value) {
+  return `${value.toFixed(1)} pt`
+}
+console.log(getFormattedValue(0.1))
+console.log(getFormattedValue(0))
+console.log(getFormattedValue(null))

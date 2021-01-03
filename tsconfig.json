@@ -9,7 +9,8 @@
     "allowJs": true,
     "checkJs": true,
     "typeRoots": ["./typings"],
-    "types": ["node", "loadash", "express"]
+    "types": ["node", "loadash", "express"],
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*"
