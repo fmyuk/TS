@@ -236,3 +236,104 @@ interface User {
   }
 }
 type Users = User[]
+
+type State = {
+  readonly id: number
+  name: string
+}
+const state: State = {
+  id: 1,
+  name: "Taro"
+}
+state.name = "Hanako"
+state.id = 2
+
+const defaultTheme = {
+  backgroundColor: "orange",
+  borderColor: "red"
+}
+
+const empty = {} as { value: "value" }
+const fiction = empty.value
+
+type ChangeUser = {
+  name: string
+  [k: string]: any
+}
+const userA: ChangeUser = {
+  name: "Taro",
+  age: 26
+}
+const x = userA.name
+const y = userA.age
+
+type Question = "exercise_habits" | "time_of_sleeping"
+type Answer = "mighty" | "lot" | "few" | "entirely"
+type UserAnswer = {
+  name: string
+  enquete: { [k in Question]?: Answer}
+}
+const userB: UserAnswer = {
+  name: "Taro",
+  enquete: {
+    exercise_habits: "entirely",
+    time_of_sleeping: "few"
+  }
+}
+const xB = userB.enquete["exercise_habits"]
+const yB = userB.enquete["steps_per_day"]
+
+interface Functions {
+  [k: string]: Function
+}
+const functions: Functions = {
+  name: "Taro",
+  age: 28,
+  walk: () => { },
+  talk: async () => {}
+}
+
+interface ReturnPromises {
+  [k: string]: () => Promise<any>
+}
+const promises: ReturnPromises {
+  name: "Taro",
+  age: 28,
+  walk: () => {},
+  talk: async () => {}
+}
+
+const tuple1 = [false, 1, "2"] as [false, 1, "2"]
+const tuple2 = [false, 1, "2"] as const
+
+const u = "u"
+const t = u
+
+const A = "A" as const
+let B = A
+
+function increment() {
+  return {type: "INCREMENT"}
+}
+function decrement() {
+  return {type: "DECREMENT"} as const
+}
+const i = increment()
+const d = decrement()
+
+export default {
+  increment: "INCREMENT",
+  decrement: "DECREMENT",
+  setCount: "SET_COUNT"
+} as const
+
+function greet(): any {
+  console.log("hello")
+}
+const messageTo = greet()
+console.log(messageTo.toUpperCase())
+
+function greet(name?: string) {
+  console.log(`Hello ${name!.toUpperCase}`)
+}
+greet()
