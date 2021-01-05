@@ -333,7 +333,126 @@ function greet(): any {
 const messageTo = greet()
 console.log(messageTo.toUpperCase())
 
-function greet(name?: string) {
+function greetOptional(name?: string) {
   console.log(`Hello ${name!.toUpperCase}`)
 }
-greet()
+greetOptional()
+
+function reset(value: number | string | boolean) {
+  const v0 = value
+  if (typeof value === "number") {
+    const v1 = value
+    return 0
+  }
+  const v2 = value
+  if (typeof value === "string") {
+    const v3 = value
+    return ""
+  }
+  const v4 = value
+  return false
+}
+console.log(reset(1))
+console.log(reset("1"))
+console.log(reset(true))
+
+type UserS = {gender: string}
+type UserA = UserS & { name: string }
+type UserB = UserS & { age: number; graduate: string }
+function judgeUserType(user: UserA | UserB) {
+  if ("gender" in user) {
+    const u0 = user
+    console.log("user type is UserA | UserB")
+  }
+  if ("name" in user) {
+    const u1 = user
+    console.log("user type is UserA")
+  }
+  const u2 = user
+  console.log("user type is UserB")
+}
+
+class Creature1 {
+  breathe(){}
+}
+class Animal extends Creature1 {
+  shakeTail(){}
+}
+class Human1 extends Creature1 {
+  greet(){}
+}
+
+function action(creature: Animal | Human1 | Creature1) {
+  const c0 = creature
+  c0.breathe()
+  if (creature instanceof Animal) {
+    const c1 = creature
+    return c1.shakeTail()
+  }
+  const c2 = creature
+  if (creature instanceof Human) {
+    const c3 = creature
+    return c3.greet()
+  }
+  const c4 = creature
+  return c4.breathe()
+}
+
+type UA = { gender: "male"; name: string }
+type UB = { gender: "female"; age: number }
+type UC = { gender: "other"; graducate: string }
+function judgeUType(user: UA | UB | UC) {
+  switch (user.gender) {
+    case "male":
+      const u0 = user
+      return "user type is UA"
+    case "female":
+      const u1 = user
+      return "user type is UB"
+    case "other":
+      const u2 = user
+      return "user type is UC"
+    default:
+      const u3 = user
+      return "user type if never"
+  }
+}
+
+function isUserA(user: UserA | UserB): user is UserA {
+  return user.name !== undefined
+}
+function isUserB(user: UserA | UserB): user is UserB {
+  return user.age !== undefined
+}
+
+function getUserType(user: any) {
+  const u0 = user
+  if (isUserA(user)) {
+    const u1 = user
+    return "A"
+  }
+  if (isUserB(user)) {
+    const u2 = user
+    return "B"
+  }
+  return "unknown"
+}
+const n = getUserType({ name: "Taro" })
+
+type UD = { name: string }
+type UE = UD & { gender: "male" | "female" | "other" }
+type UF = UD & { graduate: string }
+const users: (UE | UF)[] = [
+  { name: "Taro", gender: "male" },
+  {name: "Hanako", graduate: "Tokyo"}
+]
+const filterUsers = users.filter(user => "graduate" in user)
+
+function filterUser(user: UE | UF): user is UF {
+  return "graduate" in user
+}
+const filteredUsers = users.filter(filterUser)
+
+const filUsers = users.filter(
+  (user: UE | UF): user is UF => "graduate" in user
+)
