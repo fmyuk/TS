@@ -539,3 +539,136 @@ let animal: Ani = new Ani("dog", 4)
 let hu: Hu = new Hu("Taro", "male")
 hu = animal
 animal = hu
+
+const Test = {}
+interface Test { }
+namespace Test { }
+
+const value1 = "test"
+let value2 = "test"
+function greetV() { }
+const greetV = "hello"
+
+interface User {
+  name: string
+}
+interface User {
+  age: number
+}
+
+type User = {
+  name: string
+}
+type User = {
+  age: number
+}
+
+interface Test {
+  value: string
+}
+namespace Test {
+  export interface Properties {
+    name: string
+  }
+}
+const test: Test = {
+  value: "value"
+}
+const properties: Test.Properties = {
+  name: "Taro"
+}
+
+interface Bounds {
+  width: number
+  height: number
+  move(amount: string): string
+}
+interface Bounds {
+  left: number
+  top: number
+  move(amount: number): string
+}
+interface Bounds {
+  width: number
+  height: string
+}
+const bounds: Bounds = {
+  width: 0,
+  height: 0,
+  left: 0,
+  top: 0,
+  move: (amount: string | number) => {
+    return `${amount}`
+  }
+}
+namespace Publisher {
+  export const name = ""
+  interface Appearance {
+    color: "monochrome" | "4colors" | "fullcolors"
+  }
+  export interface Book {
+    title: string
+    appearance: Appearance
+  }
+}
+namespace Publisher {
+  export interface CookingBook extends Book {
+    category: "cooking"
+    appearance: Appearance
+  }
+}
+
+namespace Publisher {
+  export interface Book {
+    lang: "ja"
+  }
+  export interface TravelBook extends Book {
+    category: "travel"
+  }
+}
+
+const cookingBook: Publisher.CookingBook = {} as Publisher.CookingBook
+const travelBook: Publisher.TravelBook = {} as Publisher.TravelBook
+
+declare global {
+  namespace Express {
+    interface Request { }
+    interface Response { }
+    interface Application { }
+  }
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      session?: Session;
+      sessionID?: string;
+    }
+    interface SessionData {
+      [key: string]: any;
+      cookie: SessionCookieData;
+    }
+    interface SessionCookieData {
+      originalMaxAge: number;
+      path: string;
+      maxAge: number;
+      secure?: boolean;
+      httpOnly: boolean;
+      domain?: string
+      expires: Date | boolean;
+      sameSite?: boolean | string;
+    }
+    interface SessionCookie extends SessionCookieData {
+      serialize(name: string, value: string): string;
+    }
+    interface Session extends SessionCookieData {
+      id: string;
+      regenerate(callback: (err: any) => void): void;
+      destroy(callback: (err: any) => void): void;
+      reload(callback: (err: any) => void): void;
+      save(callback: (err: any) => void): void;
+      touch(callback: (err: any) => void): void;
+      cookie: SessionCookie;
+    }
+  }
+}
