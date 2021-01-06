@@ -456,3 +456,62 @@ const filteredUsers = users.filter(filterUser)
 const filUsers = users.filter(
   (user: UE | UF): user is UF => "graduate" in user
 )
+
+let s1: "test" = "test"
+let s2: string = s1
+let s3: string = "test"
+let s4: "test" = s3
+
+let n1: 0 = 0
+let n2: number = n1
+let n3: number = 0
+let n4: 0 = n3
+
+let b1: any = false
+let b2: string = b1
+let b3 = b1 as number
+
+let un1: unknown = "test"
+let un2: string = un1
+let un3: number = un1 as number
+
+const u1 = "0"
+const u2 = "0" as string
+const u3 = 0 as string
+const u4 = "0" as {}
+
+let o1: {} = 0
+let o2: {} = "1"
+let o3: {} = false
+let o4: {} = {}
+
+let p1: object = 0
+let p2: object = "1"
+let p3: object = false
+let p4: object = {}
+
+type K0 = keyof {}
+type K1 = keyof { K: "K" }
+type K2 = keyof 0
+type K3 = keyof "1"
+type K4 = keyof false
+
+let ob1 = { p1: 0 }
+let ob2 = { p1: "test" }
+ob1 = ob2
+ob2 = ob1
+
+let obj1 = { p1: "test" }
+let obj2 = { p2: "test" }
+obj1 = obj2
+obj2 = obj1
+
+let obje1 = { p1: "test" }
+let obje2 = { p1: "test", p2: 0 }
+obje1 = obje2
+obje2 = obje1
+
+let objec1 = {}
+let objec2 = { p1: "test" }
+objec1 = objec2
+objec2 = objec1
