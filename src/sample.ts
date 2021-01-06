@@ -515,3 +515,27 @@ let objec1 = {}
 let objec2 = { p1: "test" }
 objec1 = objec2
 objec2 = objec1
+
+let fn1 = (a1: number) => { }
+let fn2 = (a1: string) => { }
+fn2 = fn1
+fn1 = fn2
+
+let fun1 = (a: number) => 0
+let fun2 = (b: number, s: string) => 0
+fun2 = fun1
+fun1 = fun2
+
+class Ani {
+  feet: number = 4
+  constructor(name: string, numFeet: number) {}
+}
+class Hu {
+  feet: number = 2
+  hands: number = 2
+  constructor(name: string, gender: string) {}
+}
+let animal: Ani = new Ani("dog", 4)
+let hu: Hu = new Hu("Taro", "male")
+hu = animal
+animal = hu
