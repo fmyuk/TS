@@ -818,7 +818,7 @@ interface DeepNest {
 interface ShallowNest {
   shallow: { value: string }
 }
-interface Properties {
+interface P {
   deep: DeepNest
   shalow: ShallowNest
 }
@@ -826,4 +826,21 @@ type Salvage<T extends DeepNest> = T["deep"]["nest"]["value"]
 type DeepDive<T> = {
   [K in keyof T]: T[K] extends DeepNest ? Salvage<T[K]> : never
 }
-type X = DeepDive<Properties>
+type XD = DeepDive<P>
+
+function hello() {
+  return "Hello"
+}
+type Return<T> = T extends (...arg: any[]) => infer U ? U : never
+type R = Return<typeof hello>
+
+function helloI(name: string, age: number) {
+  return `Hello! I'm ${name}. ${age} years old.`
+}
+type A1<T> = T extends (...args: [infer U, ...any[]]) => any ? U : never
+type A2<T> = T extends (...arg: [any, infer U, ...any[]]) => any ? U : never
+type AA<T> = T extends (...arg: infer U) => any ? U : never
+
+type XA = A1<typeof helloI>
+type YA = A2<typeof helloI>
+type ZA = AA<typeof helloI>
