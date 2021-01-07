@@ -672,3 +672,158 @@ declare global {
     }
   }
 }
+
+interface Box<T> {
+  value: T
+}
+
+const box0: Box = { value: "test" }
+const box1: Box<string> = { value: "test" }
+const box2: Box<number> = { value: "test" }
+
+interface Box<T = string> {
+  value: T
+}
+
+const bx0: Box = { value: "test" }
+const bx1: Box<string> = { value: "test" }
+const bx2: Box<number> = { value: "test" }
+
+interface Box<T extends string | number> {
+  value: T
+}
+
+const bo0: Box<string> = { value: "test" }
+const bo1: Box<number> = { value: 0 }
+const bo2: Box<boolean> = { value: false }
+
+function boxed<T>(props: T) {
+  return {value: props}
+}
+
+const boxed0 = boxed("test")
+const boxed1 = boxed(0)
+const boxed2 = boxed(false)
+const boxed3 = boxed(null)
+
+const boxed4 = boxed(false as boolean | null)
+const boxed5 = boxed<string | null>(null)
+
+const boxedC = <T>(props: T) => ({ value: props })
+
+function boxedF<T extends string>(props: T) {
+  return {value: props}
+}
+const boxedF1 = boxedF(0)
+const boxedF2 = boxedF("test")
+
+interface Props {
+  amount: number
+}
+function boxF<T extends Props>(props: T) {
+  return {value: props.amount.toFixed(1)}
+}
+const boxF1 = boxF({ amount: 0 })
+const boxF2 = boxF({ value: 0 })
+const boxF3 = boxF(amount: "test")
+
+function pick<T, K extends keyof T>(props: T, key: K) {
+  return props[key]
+}
+
+const objV = {
+  name: "Taro",
+  amount: 0,
+  flag: false
+}
+const v1 = pick(objV, "name")
+const v2 = pick(objV, "amount")
+const v3 = pick(objV, "flag")
+const v4 = pick(obj, "test")
+
+class Person<T extends string> {
+  name: T
+  constructor(name: T) {
+    this.name = name
+  }
+}
+const person = new Person("Taro")
+const personName = person.name
+
+interface PersonProps {
+  name: string
+  age: number
+  gender: "male" | "female" | "other"
+}
+class PersonP<T extends PersonProps> {
+  name: T["name"]
+  age: T["age"]
+  gender: T["gender"]
+
+  constructor(props: T) {
+    this.name = props.name
+    this.age = props.age
+    this.gender = props.gender
+  }
+}
+const personP = new PersonP({
+  name: "Taro",
+  age: 28,
+  gender: "male"
+})
+
+type IsString<T> = T extends string ? true : false
+type X = IsString<"test">
+type Y = IsString<0>
+
+interface Properties {
+  name: string
+  age: number
+  flag: boolean
+}
+type IsType<T, U> = {
+  [K in keyof T]: T[K] extends U ? true: false
+}
+type String = IsType<Properties, string>
+type Number = IsType<Properties, number>
+type Boolean = IsType<Properties, boolean>
+
+interface Property {
+  name: string
+  age: number
+  walk: () => void
+  jump: () => Promise<void>
+}
+type Filter<T, U> = {
+  [K in keyof T]: T[K] extends U ? K : never
+}[keyof T]
+type StringKeys = Filter<Property, string>
+type NumberKeys = Filter<Property, number>
+type FunctionKeys = Filter<Property, Function>
+type ReturnPropmiseKeys = Filter<Property, () => Promise<any>>
+
+type StringKeysT<T> = Filter<T, string>
+type NumberKeysT<T> = Filter<T, number>
+type FunctionKeysT<T> = Filter<T, Function>
+type ReturnPromiseKeys<T> = Filter<T, () => Promise<any>>
+
+type Strings = Pick<Property, StringKeysT<Property>>
+type Numbers = Pick<Property, NumberKeysT<Property>>
+type FunctionsT = Pick<Property, FunctionKeysT<Property>>
+type ReturnPromisesT = Pick<Property, ReturnPromiseKeys<Property>>
+
+interface DeepNest {
+  deep: { nest: { value: string } }
+}
+interface ShallowNest {
+  shallow: { value: string }
+}
+interface Properties {
+  deep: DeepNest
+  shalow: ShallowNest
+}
+type Salvage<T extends DeepNest> = T["deep"]["nest"]["value"]
+type DeepDive<T> = {
+  [K in keyof T]: T[K] extends DeepNest ? Salvage<T[K]> : never
+}
+type X = DeepDive<Properties>
