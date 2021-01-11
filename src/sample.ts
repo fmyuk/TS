@@ -880,3 +880,67 @@ class C {
 }
 type CC = InstanceType<typeof C>
 const nc = {} as CC
+
+type TypeName<T> =
+  T extends string ? "string" :
+  T extends number ? "number" :
+  T extends boolean ? "boolean" :
+  T extends undefined ? "undefined" :
+  T extends Function ? "function" :
+  "object"
+
+type T0 = TypeName<string>
+type T1 = TypeName<number>
+type T2 = TypeName<boolean>
+type T3 = TypeName<() => void>
+type T4 = TypeName<string[]>
+
+interface Part {
+  id: number;
+  name: string;
+  subparts: Part[];
+  updatePart(newName: string): void;
+}
+type FunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? K : never
+}[keyof T]
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>
+type FN = FunctionPropertyNames<Part>;
+type FP = FunctionProperties<Part>;
+
+type NonFunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? never : K
+}[keyof T]
+type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>
+type NF = NonFunctionPropertyNames<Part>;
+type NP = NonFunctionProperties<Part>;
+
+type Unpacked<T> =
+  T extends (infer U)[] ? U :
+  T extends (...args: any[]) => infer U ? U :
+  T extends Promise<infer U> ? U :
+  T
+type U0 = Unpacked<string>
+type U1 = Unpacked<string[]>
+type U2 = Unpacked<() => string>
+type U3 = Unpacked<Promise<string>>
+type U4 = Unpacked<Promise<string>>
+type U5 = Unpacked<Promise<string>[]>
+type T5 = Unpacked<Unpacked<Promise<string>[]>>
+
+interface User {
+  name: string
+  age: number
+  gender: "male" | "female" | "other"
+  birth: {
+    day: Date
+    place?: {
+      country?: string | null
+      state?: string
+    }
+  }
+}
+type Unbox<T> = T extends { [k: string]: infer U } ? U
+  : T extends (infer U)[] ? U
+  : T
+type isPrimitive<T> = T extends Unbox<T> ? T : never
