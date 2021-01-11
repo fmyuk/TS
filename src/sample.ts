@@ -844,3 +844,39 @@ type AA<T> = T extends (...arg: infer U) => any ? U : never
 type XA = A1<typeof helloI>
 type YA = A2<typeof helloI>
 type ZA = AA<typeof helloI>
+
+async function aisatsu() {
+  return "Hello!"
+}
+
+type ResolveArg<T> = T extends () => Promise<infer U> ? U : never
+type aX = typeof aisatsu
+type aY = ResolveArg<typeof aisatsu>
+
+interface UUser {
+  name: string
+  age: number | null
+  gender: "male" | "female" | "other"
+  birthplace?: string
+}
+type ReadonlyWrapUser = Readonly<UUser>
+type PartialWrapUser = Partial<UUser>
+type RequiredWrapUser = Required<UUser>
+type UserRecord = Record<"user", UUser>
+type UserGender = Pick<UUser, "gender">
+type withoutBirthplace = Omit<UUser, "birthplace">
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+
+type Exc = Exclude<"a" | "b", "b">
+type ExcF = Exclude<"a" | (() => void), Function>
+type Ext = Extract<"a" | "b", "b">
+type ExtF = Extract<"a" | (() => void), Function>
+type NN = NonNullable<string | null | undefined>
+type Re = ReturnType<() => string>
+type ReS = ReturnType<string>
+class C {
+  x = 0
+  y = 0
+}
+type CC = InstanceType<typeof C>
+const nc = {} as CC
