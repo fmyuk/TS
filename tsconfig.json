@@ -10,7 +10,8 @@
     "checkJs": true,
     "typeRoots": ["./typings"],
     "types": ["node", "loadash", "express"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsx": "react"
   },
   "include": [
     "src/**/*"
