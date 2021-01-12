@@ -944,3 +944,59 @@ type Unbox<T> = T extends { [k: string]: infer U } ? U
   : T extends (infer U)[] ? U
   : T
 type isPrimitive<T> = T extends Unbox<T> ? T : never
+
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: T[P] extends isPrimitive<T[P]>
+  ? T[P]
+  : DeepReadonly<T[P]>
+}
+type DeepReadonlyWrapUser = DeepReadonly<User>
+
+type DeepRequired<T> = {
+  [P in keyof T]-?: T[P] extends isPrimitive<T[P]>
+  ? T[P]
+  : DeepRequired<T[P]>
+}
+type DeepRequiredWrapUser = DeepRequired<User>
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends isPrimitive<T[P]>
+  ? T[P]
+  : DeepPartial<T[P]>
+}
+type DeepPartialWrapUser = DeepPartial<User>
+
+type DeepNullable<T> = {
+  [P in keyof T]?: T[P] extends isPrimitive<T[P]>
+  ? T[P] | null
+  : DeepNullable<T[P]>
+}
+type DeepNullableWrapUser = DeepNullable<User>
+
+type DeepNonNullable<T> = {
+  [P in keyof T]-?: T[P] extends isPrimitive<T[P]>
+  ? Exclude<T[P], null | undefined>
+  : DeepNonNullable<T[P]>
+}
+type DeepNonNullableWrapUser = DeepNonNullable<User>
+
+type UnboxU<T> = T extends { [K in keyof T]: infer U } ? U : never
+type T = UnboxU<{ a: "A"; b: "B"; c: "C" }>
+
+type UTI<T> = T extends any ? (args: T) => void : never
+type UnionToIntersection<T> = UTI<T> extends (args: infer I) => void ? I : never
+type A_or_B = { a: "a" } | { b: "b" }
+type A_and_B = UnionToIntersection<A_or_B>
+
+type NonEmptyList<T> = [T, ...T[]]
+const list1: NonEmptyList<string> = []
+const list2: NonEmptyList<string> = ["test"]
+
+type PickSet<T> = T extends Set<infer I> ? I : never
+const set = new Set([1, 2] as const)
+type SetValues = PickSet<typeof set>
+
+const map = new Map([[0, "foo"], [1, "bar"]] as const)
+type PickMapKeys<T> = T extends Map<infer KeyboardEvent, any> ? K : never
+type MapKeys = PickMapKeys<typeof map>
+type MapKeys: 0 | 1
